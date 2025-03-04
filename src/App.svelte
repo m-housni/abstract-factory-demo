@@ -3,15 +3,27 @@
   import { createFactory } from './factory';
 
   let product;
+  let selectedProductType = 'ProductTypeA';
+
+  const productTypes = ['ProductTypeA', 'ProductTypeB', 'ProductTypeC'];
+
+  function createProduct() {
+    const factory = createFactory(selectedProductType);
+    product = factory.createProduct();
+  }
 
   onMount(() => {
-    const factory = createFactory('ProductTypeA');
-    product = factory.createProduct();
+    createProduct();
   });
 </script>
 
 <main>
   <h1>Abstract Factory Demo</h1>
+  <select bind:value={selectedProductType} on:change={createProduct}>
+    {#each productTypes as type}
+      <option value={type}>{type}</option>
+    {/each}
+  </select>
   {#if product}
     <p>Product created: {product.name}</p>
   {/if}

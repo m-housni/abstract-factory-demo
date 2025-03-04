@@ -5,11 +5,16 @@
   let product;
   let selectedProductType = 'ProductTypeA';
 
-  const productTypes = ['ProductTypeA', 'ProductTypeB', 'ProductTypeC'];
+  const productTypes = ['ProductTypeA', 'ProductTypeB', 'ProductTypeC', 'ProductTypeD'];
 
   function createProduct() {
-    const factory = createFactory(selectedProductType);
-    product = factory.createProduct();
+    try {
+      const factory = createFactory(selectedProductType);
+      product = factory.createProduct();
+    } catch (error) {
+      console.error('Error creating product:', error);
+      product = null;
+    }
   }
 
   onMount(() => {
@@ -26,6 +31,8 @@
   </select>
   {#if product}
     <p>Product created: {product.name}</p>
+  {:else}
+    <p>Unknown product. Add ProductTypeDFactory to the factory file</p>
   {/if}
 </main>
 
